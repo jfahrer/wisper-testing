@@ -2,7 +2,9 @@ module Wisper
   class Testing
     class FakeBroadcaster
       def broadcast(listener, publisher, event, args)
-        # no-op
+        if Wisper::RSpec::EventRecorder === listener
+          listener.public_send(event, *args)
+        end
       end
     end
   end
